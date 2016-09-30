@@ -71,6 +71,7 @@ public class ProblemMap extends Problem {
 		return sld.get(state);
 	}
 
+
 	public static void main(String[] args) throws Exception {
 		ProblemMap problem = new ProblemMap("romania.txt","romaniaSLD.txt");
 		problem.initialState = "Timisoara";
@@ -90,8 +91,6 @@ public class ProblemMap extends Problem {
 
 		System.out.println("AstarGraphSearch:\t\t" + search.AstarGraphSearch());
 
-		System.out.println("A_StarGraphSearch:\t\t" + search.A_StarGraphSearch());
-
-
+		// System.out.println("A_StarGraphSearch:\t\t" + search.A_StarGraphSearch());
 	}	
 }

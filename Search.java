@@ -165,6 +165,7 @@ public class Search {
 				
 		}
 	}
+
 	// GraphSearchDepthLimited
 	private String GraphSearchDepthLimited(Frontier frontier, int limit) {
 		cnt = 0;
@@ -242,6 +243,20 @@ public class Search {
 		node.depth = 0;
 		return node;
 	}
+
+	// public void PrintTree(Node node ){
+	// 	// print spaces as many as n_depth
+	// 	for(int i = 0; i< node.depth; i++){
+	// 		// print n 
+	// 		// for(m in node.list){
+	// 			if(m.parent_node = null){ return }
+	// 			PrintTree(m);
+	// 		}
+
+	// 	}
+		
+	// } 
+
 	
 	private Set<Node> Expand(Node node, Problem problem) {
 		node.order = cnt;
