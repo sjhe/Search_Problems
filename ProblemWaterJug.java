@@ -26,24 +26,50 @@ public class ProblemWaterJug extends Problem{
         //fill the 12 gallon jug
         successor_state = new StateWaterJug(jug_state);
         successor_state.jugArray[tweleveGalJug] = 12;
+        successor_state.cost += (12 - successor_state.jugArray[tweleveGalJug]);
         if (isValid(successor_state)) set.add(successor_state);
 
         //empty the 12 gallon jug to the ground
         successor_state = new StateWaterJug(jug_state);
+        successor_state.cost += successor_state.jugArray[tweleveGalJug];
         successor_state.jugArray[tweleveGalJug] = 0;
         if (isValid(successor_state)) set.add(successor_state);
 
-        //fill the 8 gallon jug with the water from 12 gallon
+        //fill the 8 gallon jug with 12 gallon jug 
+        // 12 -> 8
         successor_state = new StateWaterJug(jug_state);
-        successor_state.jugArray[tweleveGalJug] -= 8;
-        successor_state.jugArray[eightGalJug] += 8;
+        successor_state.jugArray[tweleveGalJug] -= (8 - successor_state.jugArray[eightGalJug]);
+        successor_state.cost += (8 - successor_state.jugArray[eightGalJug]);
+        successor_state.jugArray[eightGalJug] += (8 - successor_state.jugArray[eightGalJug]) ;
         if (isValid(successor_state)) set.add(successor_state);
 
-        //fill the 3 gallon jug with the water from 12 gallon
+        //fill the 3 gallon jug with 12 gallon jug   
+        // 12 -> 3
         successor_state = new StateWaterJug(jug_state);
-        successor_state.jugArray[tweleveGalJug] -= 3;
-        successor_state.jugArray[threeGalJug] += 3;
+        successor_state.jugArray[tweleveGalJug] -= (3 - successor_state.jugArray[threeGalJug]);
+        successor_state.cost += (3 - successor_state.jugArray[threeGalJug]);
+        successor_state.jugArray[threeGalJug] += (3 - successor_state.jugArray[threeGalJug]) ;
         if (isValid(successor_state)) set.add(successor_state);
+
+        //fill the 12 gallon jug with 8 gallon
+        // 8 -> 12
+        successor_state = new StateWaterJug(jug_state);
+        // check if there is enough water in 12 gallon jug
+        successor_state.jugArray[tweleveGalJug] += successor_state.jugArray[eightGalJug];
+        successor_state.cost += successor_state.jugArray[eightGalJug];
+        successor_state.jugArray[eightGalJug] -= successor_state.jugArray[eightGalJug];
+        if (isValid(successor_state)) set.add(successor_state);
+
+        //fill the 12 gallon jug with 3 gallon
+        // 3 -> 12
+        successor_state = new StateWaterJug(jug_state);
+        successor_state.jugArray[tweleveGalJug] += successor_state.jugArray[threeGalJug];
+        successor_state.cost += successor_state.jugArray[threeGalJug];
+        successor_state.jugArray[threeGalJug] -= successor_state.jugArray[threeGalJug];
+        if (isValid(successor_state)) set.add(successor_state);
+
+
+
         // END 12 gallon jug 
 
         //fill the 8 gallon jug
@@ -96,7 +122,15 @@ public class ProblemWaterJug extends Problem{
 	}
 
 	double step_cost(Object fromState, Object toState){
-		return 1.0;
+        StateWaterJug from_State = (StateWaterJug) fromState;
+        StateWaterJug to_State = (StateWaterJug) toState;
+        int cost = to_State.cost;
+        // System.out.println("From State = " + from_State.toString());
+        // System.out.println("To State = " + to_State.toString());
+        // System.out.println("cost = " + to_State.cost);
+        if(cost > 0)
+            return cost;
+        else return 1;  // # of galon used for move
 	};
 	public double h(Object state){
 		return 0.0;
@@ -121,17 +155,19 @@ public class ProblemWaterJug extends Problem{
 		
 		Search search  = new Search(problem);
 		
-		System.out.println("BreadthFirstTreeSearch:\t\t" + search.BreadthFirstTreeSearch());
+        System.out.println("TreeSearch------------------------");
+        System.out.println("BreadthFirstTreeSearch:\t\t" + search.BreadthFirstTreeSearch());
+        System.out.println("UniformCostTreeSearch:\t\t" + search.UniformCostTreeSearch());
 
-		System.out.println("BreadthFirstGraphSearch:\t" + search.BreadthFirstGraphSearch());
+        System.out.println("\n\nGraphSearch------------------------");
+        System.out.println("BreadthFirstGraphSearch:\t\t" + search.BreadthFirstGraphSearch());
+        System.out.println("UniformCostGraphSearch:\t\t" + search.UniformCostGraphSearch());
+        System.out.println("DepthFirstGraphSearch:\t\t" + search.DepthFirstGraphSearch());
 
+        System.out.println("\n\nIterativeDeepening----------------------");
         System.out.println("IterativeDeepeningTreeSearch:\t" + search.IterativeDeepeningTreeSearch());
-
         System.out.println("IterativeDeepeningGraphSearch:\t" + search.IterativeDeepeningGraphSearch());
 
-        System.out.println("AstarTreeSearch:\t\t" + search.AstarTreeSearch());
-
-        System.out.println("AstarGraphSearch:\t\t" + search.AstarGraphSearch());
 
 	}
 }

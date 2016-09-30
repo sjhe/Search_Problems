@@ -1,7 +1,7 @@
 public class StateWaterJug
 {    
     int jugArray[];
-    
+    int cost = 0;
     public StateWaterJug(int[] jugArray) { this.jugArray = jugArray; }
     
     //It has to be a copy of values not reference because we will 
